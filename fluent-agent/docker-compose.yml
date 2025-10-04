@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  fluent-bit:
+    image: cr.fluentbit.io/fluent/fluent-bit:2.2
+    command: -c /fluent-bit/etc/fluent-bit.conf
+    ports:
+      - "127.0.0.1:9880:9880"
+    volumes:
+      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+    restart: unless-stopped
