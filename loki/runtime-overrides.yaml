@@ -1,0 +1,9 @@
+overrides:
+  ops:
+    retention_period: 720h
+    ingestion_rate_mb: 50
+    ingestion_burst_size_mb: 100
+  raw:
+    retention_period: 720h
+    ingestion_rate_mb: 50
+    ingestion_burst_size_mb: 100
