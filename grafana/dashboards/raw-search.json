@@ -1,0 +1,14 @@
+{
+  "title": "Raw Payload Search",
+  "panels": [
+    {
+      "type": "logs",
+      "title": "Search (IMEI/Pattern)",
+      "datasource": "Loki (raw)",
+      "targets": [{ "expr": "{app=\"gps-server\",service=\"device-ingest\"} | json" }],
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 18 }
+    }
+  ],
+  "schemaVersion": 37,
+  "version": 1
+}

@@ -1,0 +1,21 @@
+{
+  "title": "API Overview",
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Errors/min",
+      "datasource": "Loki (ops)",
+      "targets": [{ "expr": "sum(rate({app=\"gps-api\",level=\"error\"}[5m]))" }],
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 }
+    },
+    {
+      "type": "logs",
+      "title": "Recent API Logs",
+      "datasource": "Loki (ops)",
+      "targets": [{ "expr": "{app=\"gps-api\"} | json" }],
+      "gridPos": { "x": 0, "y": 4, "w": 24, "h": 12 }
+    }
+  ],
+  "schemaVersion": 37,
+  "version": 1
+}
