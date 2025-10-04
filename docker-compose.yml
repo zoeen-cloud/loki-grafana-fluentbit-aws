@@ -1,0 +1,57 @@
+version: "3.9"
+
+networks:
+  obsnet:
+
+services:
+  loki:
+    image: grafana/loki:2.9.6
+    command: -config.file=/etc/loki/config.yaml
+    volumes:
+      - ./loki/config.yaml:/etc/loki/config.yaml:ro
+      - ./loki/runtime-overrides.yaml:/etc/loki/runtime-overrides.yaml:ro
+      - loki-data:/var/loki
+    environment:
+      - AWS_REGION=ap-south-1
+    expose: ["3100"]
+    networks: [obsnet]
+    restart: unless-stopped
+
+  memcached:
+    image: memcached:1.6
+    command: memcached -m 256
+    expose: ["11211"]
+    networks: [obsnet]
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.4.5
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: "ChangeMe_#2025"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_SERVER_ROOT_URL: https://<ElasticIP>/grafana
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    expose: ["3000"]
+    networks: [obsnet]
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2.7
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./proxy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./proxy/selfsigned.crt:/etc/caddy/selfsigned.crt:ro
+      - ./proxy/selfsigned.key:/etc/caddy/selfsigned.key:ro
+    networks: [obsnet]
+    depends_on: [loki, grafana]
+    restart: unless-stopped
+
+volumes:
+  loki-data:
+  grafana-data:
