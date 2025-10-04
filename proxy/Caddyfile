@@ -1,0 +1,22 @@
+{
+  auto_https off
+}
+
+https://<ElasticIP>:443 {
+  tls /etc/caddy/selfsigned.crt /etc/caddy/selfsigned.key
+
+  handle_path /grafana* {
+    uri strip_prefix /grafana
+    reverse_proxy grafana:3000
+  }
+
+  handle_path /loki* {
+    # Replace with bcrypt hash:
+    # docker run --rm caddy:2.7 caddy hash-password --plaintext 'ChangeThis!2025'
+    basicauth {
+      lokiuser $2a$12$REPLACE_WITH_BCRYPT_HASH
+    }
+    uri strip_prefix /loki
+    reverse_proxy loki:3100
+  }
+}
