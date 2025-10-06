@@ -28,28 +28,15 @@ services:
     image: grafana/grafana:10.4.5
     environment:
       GF_SECURITY_ADMIN_USER: admin
-      GF_SECURITY_ADMIN_PASSWORD: "ChangeMe_#2025"
+      GF_SECURITY_ADMIN_PASSWORD: "Zomat@1738"
       GF_USERS_ALLOW_SIGN_UP: "false"
-      GF_SERVER_ROOT_URL: https://<ElasticIP>/grafana
+      GF_SERVER_ROOT_URL: http://15.206.170.162/grafana
     volumes:
       - grafana-data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/var/lib/grafana/dashboards
     expose: ["3000"]
     networks: [obsnet]
-    restart: unless-stopped
-
-  caddy:
-    image: caddy:2.7
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./proxy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./proxy/selfsigned.crt:/etc/caddy/selfsigned.crt:ro
-      - ./proxy/selfsigned.key:/etc/caddy/selfsigned.key:ro
-    networks: [obsnet]
-    depends_on: [loki, grafana]
     restart: unless-stopped
 
 volumes:
