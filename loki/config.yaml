@@ -56,9 +56,6 @@ query_range:
         timeout: 500ms
         addresses: memcached:11211
 
-# Remove DEPRECATED warning:
-querier:
-  max_query_lookback: 720h
 
 runtime_config:
   file: /etc/loki/runtime-overrides.yaml
