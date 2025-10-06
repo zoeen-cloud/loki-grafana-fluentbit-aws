@@ -18,10 +18,9 @@ services:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: "Zomat@1738"
       GF_USERS_ALLOW_SIGN_UP: "false"
-      GF_SERVER_ROOT_URL: http://15.206.208.4/grafana
+
     volumes:
       - grafana-data:/var/lib/grafana
-
     expose: ["3000"]
     networks: [obsnet]
     restart: unless-stopped
