@@ -10,7 +10,7 @@ services:
     volumes:
       - ./loki/config.yaml:/etc/loki/config.yaml:ro
       - ./loki/runtime-overrides.yaml:/etc/loki/runtime-overrides.yaml:ro
-      - loki-data:/var/loki
+      - ./loki-data:/var/loki
     environment:
       - AWS_REGION=ap-south-1
     ports:
